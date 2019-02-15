@@ -25,6 +25,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
@@ -123,5 +125,16 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
 
+    }
+
+    public void unsubscribe(User currentUser, User user) {
+
+        user.getSubscribers().remove(currentUser);
+        userRepo.save(user);
+    }
+
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+        userRepo.save(user);
     }
 }
